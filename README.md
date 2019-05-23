@@ -3,6 +3,8 @@
 
 Simple app to count time and log it in your account.
 
+Live on https://pmotak.vot.pl
+
 Now. You can:
 - register user
 - log in
