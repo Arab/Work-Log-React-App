@@ -1,0 +1,1 @@
+console.log("customowy SW dziala");

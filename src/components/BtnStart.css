@@ -1,0 +1,19 @@
+.BtnStart {
+    border-radius: 50%;
+    border: none;
+    background-color: rgb(47, 255, 64);
+    height: 150px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: whitesmoke;
+    font-weight:bold;
+    font-size: 35px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.623);
+    box-shadow: 3px 3px 30px -10px black;
+    margin: 5px;
+}
+.BtnStart span {
+    margin-top: -5px;
+}

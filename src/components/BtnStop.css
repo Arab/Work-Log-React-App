@@ -1,0 +1,19 @@
+.BtnStop {
+    border-radius: 50%;
+    border: none;
+    background-color: rgb(245, 36, 21);
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: whitesmoke;
+    font-weight:bold;
+    font-size: 25px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.678);
+    box-shadow: 3px 3px 30px -10px black;
+    margin: 20px;
+}
+.BtnStop span {
+    margin-top: -5px;
+}
