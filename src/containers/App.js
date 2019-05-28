@@ -5,6 +5,7 @@ import Clock from './Clock';
 import History from '../components/History';
 import SimpleMenu from './Menu';
 import ApiAdress from '../const/const'
+import { object } from 'prop-types';
 
 
 const ApiAdr = ApiAdress();
@@ -311,3 +312,8 @@ class App extends Component {
     }
   }
   export default App;
+
+
+
+
+  
