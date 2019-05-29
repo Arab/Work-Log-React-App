@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import './App.css';
 import Loginscreen from './Loginscreen';
 import Clock from './Clock';
-import History from '../components/History';
+import History from './History';
 import SimpleMenu from './Menu';
 import ApiAdress from '../const/const'
-import { object } from 'prop-types';
+import { Auth } from '../services/Auth';
+import { Logs } from '../services/Logs';
+import { Reg } from '../services/Reg';
 
 
 const ApiAdr = ApiAdress();
@@ -36,8 +38,7 @@ class App extends Component {
 
 
   componentWillMount() {
-    localStorage.getItem('jwtToken') && this.setState({
-      jwtToken: JSON.parse(localStorage.getItem('jwtToken')),
+    Auth.authenticated() && this.setState({
       isLoggedIn: true,
       clockPage: true
     })
@@ -59,76 +60,46 @@ class App extends Component {
       loginPage: true
     });
   }
-  handleLoginSubmit = (values) => {
-
-    let res = new Response();
-    fetch(ApiAdr + "login.php", { 
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          "login": values.email,
-          "password": values.password
-        })
-      })
-      .then(response => {
-            
-            if(response.status !== 200) {
-              this.setState({loginError:true})
-            }
-            return response.json();
-            
-      })
-      .then(res => {
-        if(res.message === "Login failed.") {
-          return null
-        }
-        this.setState({
-          jwtToken: res.jwt,
-          loginError: false
-        })
-        if (res.jwt) {
-          localStorage.setItem('jwtToken', JSON.stringify(this.state.jwtToken));
-          this.setState({
-            isLoggedIn: true,
-            clockPage: true,
-            loginError: false
-          })
-        }
-      })      
-      .catch(error => console.log(error));
-
-
-      if(res) {
-        
-      }
-
-
+  handleLoginSubmit = ({email, password}) => {
+    const data = {
+      login: email,
+      password: password
   }
+    
+    Auth.login(data)
+    .then(()=>{
+      this.setState({
+            loginError: false,
+            isLoggedIn: true,
+            clockPage: true})
+    }) 
+    .catch(()=>this.setState({loginError:true}))
+   
+   
+
+  } 
+
 
   handleRegisterSubmit = (values) => {
-    console.log(values.login, values.email, values.password)
-    fetch(ApiAdr + "create_user.php", {
-      
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          "login": values.login,
-          "email": values.email,
-          "password": values.password,
-        })
-      })
+
+      Reg.Register(values)
       .then(response => {
-        if(response.status === 401) {
-          
+        console.log(response)
+        this.setState({
+          doesLoginExist: false,
+          doesEmailExist: false,
+          loginPage:true
+        })
+        return response.data.message 
+  })
+      .catch(error => {
+        let response = error.response;
+        if(response.status === 401) { 
           this.setState({
             doesLoginExist: true,
             doesEmailExist: false
           })
-          return response.json()
+          return response.data.message
         }
         if(response.status === 402) {
           
@@ -136,7 +107,7 @@ class App extends Component {
             doesEmailExist: true,
             doesLoginExist: false
           })
-          return response.json()
+          return response.data.message
         }
         if(response.status === 403) {
           
@@ -144,17 +115,9 @@ class App extends Component {
             doesLoginExist: true,
             doesEmailExist: true
           })
-          return response.json()
+          return response.data.message
         }
-        this.setState({
-          doesLoginExist: false,
-          doesEmailExist: false,
-          loginPage:true
-        })
-        return response.json();
-        
-  })
-      .catch(error => console.log('Auth failed: ' + error.message));
+      });
 
     
   }
@@ -211,23 +174,14 @@ class App extends Component {
 
     let stUTC = startTime.toJSON().slice(0,19).replace('T', ' ');
     let etUTC = endTime.toJSON().slice(0,19).replace('T', ' ');
-
-    fetch(ApiAdr + "create_log.php", {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          "start": stUTC,
-          "stop": etUTC,
-          "jwt": this.state.jwtToken
-        })
-      })
-      .then(response => response.json())
-      .then(json => {
-        console.log('Log created ' + json);
-      })
-      .catch(error => console.log('Auth failed: ' + error.message));
+    const dataToSend = {
+      start: stUTC,
+      stop: etUTC,
+      jwt: Auth.authenticated()
+    }
+    if(dataToSend.jwt) {
+      Logs.create_log(dataToSend)
+    }
   }
 
 
@@ -235,8 +189,7 @@ class App extends Component {
   // Metody menu
 
   handleMenuLogOutClick = () => {
-    console.log("logged out")
-    localStorage.removeItem("jwtToken");
+    Auth.logout();
     this.setState({
       jwtToken: "",
       isLoggedIn: false,
