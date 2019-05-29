@@ -4,48 +4,94 @@ import BtnPause from '../components/BtnPause';
 import BtnStop from '../components/BtnStop';
 import './Clock.css'
 import Notifications from '../components/Notifications'
-
-
-
-
+import Timer from '../components/Timer'
+import { Logs } from '../services/Logs';
+import { Auth } from '../services/Auth';
 
 class Clock extends Component {
-  
-  getSeconds() {
-    return ('0' + this.props.secondsElapsed %60).slice(-2)
-  }
-  getMinutes() {
-    if (this.props.secondsElapsed / 3600 < 0)
-    {
-      return ('0' + Math.floor(this.props.secondsElapsed /60)).slice(-2)
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDateTime: "",
+      secondsElapsed: 0,
+      isPaused: true 
     }
-    return ('0' + Math.floor((this.props.secondsElapsed % 3600) /60)).slice(-2)
-    
-    
   }
-  getHours() {
-    return ('0' + Math.floor(this.props.secondsElapsed /3600)).slice(-2)
+  
+// Metody Zegara
+handleStartClick = () => {
+  console.log("Start Clicked");
+  if (this.state.secondsElapsed === 0) {
+    let startDateTimeNow = new Date();
+
+    this.setState({
+      startDateTime: startDateTimeNow
+    })
   }
+  this.setState({
+    isPaused: false
+  });
+  this.incrementer = setInterval(() => {
+    this.setState({
+      secondsElapsed: this.state.secondsElapsed + 1
+    });
+  }, 1000)
+}
+handlePauseClick = () => {
+  console.log("Pause Clicked");
+  this.setState({
+    isPaused: true
+  });
+  clearInterval(this.incrementer);
+}
+handleStopClick = () => {
+  console.log("Stop Clicked");
+  this.setState({
+    isPaused: true
+  });
+  clearInterval(this.incrementer);
+  this.saveLog();
+  //reset Time State
+  this.setState({
+    startDateTime: "",
+    secondsElapsed: 0
+  })
+}
 
+saveLog = () => {
+  let startTime = new Date(this.state.startDateTime);
+  let endTime = new Date(this.state.startDateTime);
+  endTime.setSeconds(endTime.getSeconds() + this.state.secondsElapsed * 1);
+  console.log("log saved " + startTime + " " + endTime);
 
+  
+
+  let stUTC = startTime.toJSON().slice(0,19).replace('T', ' ');
+  let etUTC = endTime.toJSON().slice(0,19).replace('T', ' ');
+  const dataToSend = {
+    start: stUTC,
+    stop: etUTC,
+    jwt: Auth.authenticated()
+  }
+  if(dataToSend.jwt) {
+    Logs.create_log(dataToSend)
+  }
+}
 
   render() {
     return (
-      
-      
       <div className="ClockWrapper">
-        <h1>{this.getHours()}:{this.getMinutes()}:{this.getSeconds()}</h1>
+        
+        <Timer secondsElapsed = {this.state.secondsElapsed}/>
         <div className="BtnWrapper">
-              {this.props.isPaused?<BtnStart handleStartClick={this.props.handleStartClick}/>:<BtnPause handlePauseClick={this.props.handlePauseClick}/> }
+              {this.state.isPaused?<BtnStart handleStartClick={this.handleStartClick}/>:<BtnPause handlePauseClick={this.handlePauseClick}/> }
               
               
-              <BtnStop handleStopClick={this.props.handleStopClick}/>
+              <BtnStop handleStopClick={this.handleStopClick}/>
         </div>
-
 
         {/* <Notifications /> */}
       </div>
-      
     );
   }
 }

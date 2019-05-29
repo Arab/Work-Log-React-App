@@ -13,7 +13,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import MaterialUIForm, {messageMap } from 'react-material-ui-form';
 import { FormHelperText } from '@material-ui/core';
 
-
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -47,22 +46,12 @@ const styles = theme => ({
   
 });
 
-
-
-
-
 function Login(props) {
   const { classes } = props;
-  
-  
   const customMessageMap = Object.assign(messageMap, {
     isRequired: 'Pole jest wymagane',
     isError: 'Błędny login lub hasło'
   })
-  
-  
- 
-
   
   return (
     <main className={classes.main}>
@@ -76,8 +65,8 @@ function Login(props) {
         </Typography>
         <MaterialUIForm className={classes.form} onSubmit={props.handleLoginSubmit} validation={{
           messageMap: customMessageMap
-        }}
-        >
+          }}
+          >
           <FormControl margin="normal" required fullWidth >
             <InputLabel htmlFor="email">Email Address or Login</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus value="" />
@@ -99,21 +88,16 @@ function Login(props) {
             Log in
           </Button>
         </MaterialUIForm>
-        
-            <Typography className={classes.submit} component="h6">
-                First time?
-            </Typography>
-            <Button
-            onClick={props.handleOnClickRegister}
-            fullWidth
-            variant="contained"
-            color="primary"
-        
-          >
-            Register
-          </Button>
-        
-        
+        <Typography className={classes.submit} component="h6">
+            First time?
+        </Typography>
+        <Button
+          onClick={props.handleOnClickRegister}
+          fullWidth
+          variant="contained"
+          color="primary">
+          Register
+        </Button>
       </Paper>
     </main>
   );
