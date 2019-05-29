@@ -14,7 +14,7 @@ export const Auth = {
             localStorage.setItem('profile', JSON.stringify(user));
             localStorage.setItem('token', jwt);
             axios.interceptors.request.use(config=> {
-                config.headers['authorization'] = 'Bearer ${jwt}';
+                config.headers['authorization'] = `Bearer ${jwt}`;
                 return config;
             });
         });

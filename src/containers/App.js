@@ -4,13 +4,12 @@ import Loginscreen from './Loginscreen';
 import Clock from './Clock';
 import History from './History';
 import SimpleMenu from './Menu';
-import ApiAdress from '../const/const'
 import { Auth } from '../services/Auth';
 import { Logs } from '../services/Logs';
 import { Reg } from '../services/Reg';
 
 
-const ApiAdr = ApiAdress();
+
 
 
 class App extends Component {
@@ -21,7 +20,6 @@ class App extends Component {
       loginPage: true,
       clockPage: false,
       historyPage: false,
-      jwtToken: "",
       userLoginName: "",
       startDateTime: "",
       secondsElapsed: 0,
@@ -191,7 +189,6 @@ class App extends Component {
   handleMenuLogOutClick = () => {
     Auth.logout();
     this.setState({
-      jwtToken: "",
       isLoggedIn: false,
       clockPage: true
     })
@@ -242,10 +239,7 @@ class App extends Component {
             isPaused = {this.state.isPaused}
             /> :
             (
-              this.state.historyPage ? < History jwtToken = {
-                this.state.jwtToken
-              }
-              />: <div> Sth gone totaly wrong </div>
+              this.state.historyPage ? < History />: <div> Sth gone totaly wrong </div>
             )
 
           ) :
