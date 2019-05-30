@@ -16,3 +16,4 @@ App created with create react app. Additional node modules installed:
 material ui
 react-material-ui-form
 react-web-notification (notification system under development)
+use-request-hook
