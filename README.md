@@ -2,9 +2,11 @@
 Simple app to count time and log it in your account.
 
 Live on https://pmotak.vot.pl
-test acc:
+
 user: test123
 pass: Test1234
+
+or create your own ;)
 
 Now. You can:
 
