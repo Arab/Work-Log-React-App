@@ -3,6 +3,7 @@ import { Logs } from '../services/Logs';
 import { Auth } from '../services/Auth';
 import dbDateToObjectDate from '../services/dbDateToObjectDate'
 import {useRequest} from 'use-request-hook'
+import './ShowLogsByPage.css'
 
 
 const ShowLogsByPage = (props) => {
@@ -40,21 +41,21 @@ const ShowLogsByPage = (props) => {
             {isLoading ? (
                 <div>Loading...</div>
             ) : (
-            <div>
-                <table >
-                    <thead>
-                        <tr>
-                            <th onClick={e => onSort(e, 'start')}>Rozpoczęcie pracy</th>
-                            <th onClick={e => onSort(e, 'logDurationValue')}>Czas trwania</th>
+            <div className="tableWrapper">
+                <table className="logTable">
+                    <thead className="logThead">
+                        <tr className="logTr">
+                            <th className="logTh" onClick={e => onSort(e, 'start')}>Rozpoczęcie pracy</th>
+                            <th className="logTh" onClick={e => onSort(e, 'logDurationValue')}>Czas trwania</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="logTbody">
                         {logs.map((log, index) => {
                             return (
-                                <tr key={index} data-item={log}>
-                                    <td data-title="logStart">{
+                                <tr className="logTr" key={index} data-item={log}>
+                                    <td className="logTd" data-title="logStart">{
                                         log.start.toLocaleDateString('pl-PL', dateOptions)}</td>
-                                    <td data-title="logDurationValue">{log.logDuration}</td>
+                                    <td className="logTd" data-title="logDurationValue">{log.logDuration}</td>
                                 </tr>
                             );
                         })}

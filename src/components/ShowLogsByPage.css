@@ -1,0 +1,40 @@
+
+.logTable {
+    border-spacing: inherit;
+}
+.logThead {
+    background-color: rgb(57, 51, 87);
+    color: white;    
+}
+
+
+.logTbody tr:nth-child(odd) {
+    background-color: #afafafe7;
+  }
+  
+.logTbody tr:nth-child(even) {
+    background-color: #f0f0f0e8;
+  }
+.logTd {
+    padding: 10px 15px 10px 15px;
+    text-align:center
+}
+.logTh {
+    padding: 10px 15px 10px 15px;
+    text-align:center
+}
+.logTh:hover {
+    background-color: rgb(81, 66, 158);
+}
+.logThead .logTr :first-child {
+    border-top-left-radius: 15px;
+}
+.logThead .logTr :last-child {
+    border-top-right-radius: 15px;
+}
+.logTbody tr:last-of-type :first-child{
+    border-bottom-left-radius: 15px;
+}
+.logTbody tr:last-of-type :last-child{
+    border-bottom-right-radius: 15px;
+}

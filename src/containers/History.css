@@ -8,12 +8,10 @@
 
 
 
-table {
-    margin-top: 10px;
-    border-collapse: collapse;
-  }
+h2 {
+  font-size: 2.3em;
+  color: whitesmoke;
+  text-shadow: 2px 2px 3px rgba(82, 82, 82, 0.541);
+}
   
   
-table, th, td {
-    border: 1px solid black;
-  }
