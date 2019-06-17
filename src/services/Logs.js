@@ -5,6 +5,7 @@ axios.interceptors.response.use(response=>response,error=>error);
 
 export const Logs = {
     create_log({start,stop, jwt}) {
+        
         return Api.post('create_log.php', {start,stop,jwt})
         .then(response => console.log(response.data.message))
         .catch(error => console.log('Auth failed: ' + error.message))

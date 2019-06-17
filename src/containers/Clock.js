@@ -73,6 +73,7 @@ saveLog = () => {
     stop: etUTC,
     jwt: Auth.authenticated()
   }
+  console.log(dataToSend)
   if(dataToSend.jwt) {
     Logs.create_log(dataToSend)
   }
