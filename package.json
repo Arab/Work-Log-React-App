@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "material-ui": "^0.20.2",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
@@ -17,13 +17,16 @@
     "react-tap-event-plugin": "^3.0.3",
     "react-web-notification": "^0.5.0",
     "underscore": "^1.9.1",
-    "use-request-hook": "^1.0.1"
+    "use-request-hook": "^1.0.1",
+    "snyk": "^1.216.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,5 +42,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "snyk": true
 }
